@@ -11,7 +11,8 @@ const port = process.env.PORT || 3000;
 createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');
   const path = normalize(url.pathname === '/' ? '/index.html' : url.pathname);
-  if (path.includes('..')) { res.writeHead(400).end('Bad request'); return; }
+  const allowed = path === '/index.html' || path.startsWith('/src/');
+  if (path.includes('..') || !allowed) { res.writeHead(404).end('Not found'); return; }
   try {
     const data = await readFile(join(root, path));
     res.writeHead(200, { 'Content-Type': types[extname(path)] ?? 'application/octet-stream' }).end(data);
