@@ -1,0 +1,13 @@
+{
+  "name": "taskflow",
+  "version": "1.0.0",
+  "description": "Gestor de tareas web sin dependencias, con pruebas unitarias, CI y despliegue en GitHub Pages.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\"",
+    "start": "node scripts/serve.js",
+    "build": "node scripts/build.js"
+  },
+  "engines": { "node": ">=22" },
+  "license": "MIT"
+}
