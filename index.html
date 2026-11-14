@@ -3,26 +3,111 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TaskFlow</title>
+  <meta name="description" content="TaskFlow — Gestor de tareas web con pruebas unitarias automatizadas y despliegue continuo en GitHub Pages.">
+  <title>TaskFlow — Gestor de Tareas</title>
   <link rel="stylesheet" href="src/styles.css">
 </head>
 <body>
-  <main>
-    <h1>TaskFlow</h1>
-    <form id="form">
-      <label for="title">Nueva tarea</label>
-      <input id="title" maxlength="200" autocomplete="off" required>
-      <button type="submit">Agregar</button>
-    </form>
-    <p id="error" role="alert"></p>
-    <nav aria-label="Filtros">
-      <button data-filter="all">Todas</button>
-      <button data-filter="active">Pendientes</button>
-      <button data-filter="done">Hechas</button>
-    </nav>
-    <ul id="list"></ul>
-    <p id="summary"></p>
-  </main>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-badge" aria-hidden="true">✓</span>
+        <div>
+          <h1>TaskFlow</h1>
+          <p class="subtitle">Gestión ágil de tareas · Evidence 4 Release</p>
+        </div>
+      </div>
+      <span class="version-pill" title="Versión verificada por CI">v1.1.0 · CI Verified</span>
+    </header>
+
+    <section class="stats-card" aria-label="Resumen de progreso">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-label">Total</span>
+          <strong id="stat-total" class="stat-value">0</strong>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Pendientes</span>
+          <strong id="stat-pending" class="stat-value stat-pending">0</strong>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Completadas</span>
+          <strong id="stat-done" class="stat-value stat-done">0</strong>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Avance</span>
+          <strong id="stat-percent" class="stat-value stat-percent">0%</strong>
+        </div>
+      </div>
+      <div class="progress-track" role="progressbar" aria-label="Porcentaje de tareas completadas" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-container">
+        <div id="progress-bar" class="progress-fill" style="width: 0%"></div>
+      </div>
+      <p id="summary" class="summary-text">0 de 0 completadas (0%)</p>
+    </section>
+
+    <main class="main-card">
+      <form id="form" class="task-form" novalidate>
+        <div class="form-row">
+          <div class="field-group field-title">
+            <label for="title">Nueva tarea</label>
+            <input
+              id="title"
+              type="text"
+              maxlength="120"
+              placeholder="Ej. Configurar reglas de protección en main..."
+              autocomplete="off"
+              required
+            >
+          </div>
+          <div class="field-group field-priority">
+            <label for="priority">Prioridad</label>
+            <select id="priority" aria-label="Prioridad de la tarea">
+              <option value="high">Alta</option>
+              <option value="medium" selected>Media</option>
+              <option value="low">Baja</option>
+            </select>
+          </div>
+          <div class="field-group field-submit">
+            <button type="submit" class="btn-primary">Agregar tarea</button>
+          </div>
+        </div>
+      </form>
+
+      <p id="error" class="error-banner" role="alert" aria-live="polite"></p>
+
+      <div class="toolbar">
+        <nav class="filter-tabs" aria-label="Filtrar tareas por estado">
+          <button type="button" data-filter="all" class="filter-btn active" aria-pressed="true">Todas</button>
+          <button type="button" data-filter="active" class="filter-btn" aria-pressed="false">Pendientes</button>
+          <button type="button" data-filter="done" class="filter-btn" aria-pressed="false">Hechas</button>
+        </nav>
+
+        <div class="search-box">
+          <input
+            id="search"
+            type="search"
+            placeholder="Buscar tarea..."
+            aria-label="Buscar tareas por texto"
+            autocomplete="off"
+          >
+        </div>
+      </div>
+
+      <ul id="list" class="task-list" aria-live="polite"></ul>
+
+      <div id="empty-state" class="empty-state" hidden>
+        <p class="empty-title">No hay tareas para mostrar</p>
+        <p class="empty-hint">Agrega una nueva tarea arriba o carga ejemplos de prueba.</p>
+        <button type="button" id="seed-btn" class="btn-secondary">Cargar tareas de ejemplo</button>
+      </div>
+
+      <footer class="card-footer">
+        <span id="char-hint" class="footer-note">Máximo 80 caracteres por tarea · Guardado automático en este navegador</span>
+        <button type="button" id="clear-completed" class="btn-ghost" hidden>Limpiar completadas</button>
+      </footer>
+    </main>
+  </div>
+
   <script type="module" src="src/app.js"></script>
 </body>
 </html>
